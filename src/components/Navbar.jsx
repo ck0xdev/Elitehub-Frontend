@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { ShoppingBag, Search, Menu, X, User, Heart } from 'lucide-react';
+import { useSelector } from 'react-redux';
+// We will use this later to show the user's initial if they are logged in
+// import { selectLoggedInUser } from '../features/auth/authSlice';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
-
+  
   // Helper to check if link is active
   const isActive = (path) => location.pathname === path;
 
@@ -60,15 +63,18 @@ const Navbar = () => {
             <button className="p-2 text-gray-500 hover:text-pink-600 hover:bg-pink-50 rounded-full transition-all">
               <Heart size={22} />
             </button>
+            
             <Link to="/cart" className="relative p-2 text-gray-500 hover:text-indigo-600 hover:bg-indigo-50 rounded-full transition-all">
               <ShoppingBag size={22} />
               <span className="absolute top-1 right-0.5 h-4 w-4 bg-red-500 text-white text-[10px] font-bold flex items-center justify-center rounded-full">
                 0
               </span>
             </Link>
-            <button className="hidden sm:block p-2 text-gray-500 hover:text-indigo-600 hover:bg-indigo-50 rounded-full transition-all">
+
+            {/* FIXED: Changed button to Link so it goes to /login */}
+            <Link to="/login" className="hidden sm:block p-2 text-gray-500 hover:text-indigo-600 hover:bg-indigo-50 rounded-full transition-all">
               <User size={22} />
-            </button>
+            </Link>
             
             {/* Mobile Menu Button */}
             <button onClick={() => setIsOpen(!isOpen)} className="md:hidden p-2 text-gray-600">
@@ -84,6 +90,7 @@ const Navbar = () => {
           <div className="px-4 pt-2 pb-6 space-y-2">
             <Link to="/" className="block px-3 py-3 rounded-lg text-base font-medium text-gray-700 hover:bg-indigo-50 hover:text-indigo-600">Home</Link>
             <Link to="/shop" className="block px-3 py-3 rounded-lg text-base font-medium text-gray-700 hover:bg-indigo-50 hover:text-indigo-600">Shop</Link>
+            <Link to="/login" className="block px-3 py-3 rounded-lg text-base font-medium text-gray-700 hover:bg-indigo-50 hover:text-indigo-600">Login / Sign Up</Link>
           </div>
         </div>
       )}
@@ -91,4 +98,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;   
+export default Navbar;
