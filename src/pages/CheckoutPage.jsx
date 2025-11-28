@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { selectItems } from '../features/cart/cartSlice';
-import { selectLoggedInUser, updateUserAsync } from '../features/auth/authSlice'; // Import updateUser
-import { createOrderAsync, selectCurrentOrder } from '../features/order/orderSlice';
+import { selectLoggedInUser, updateUserAsync } from '../features/auth/authSlice';
+import { createOrderAsync, selectCurrentOrder } from '../features/order/orderSlice'; // Ensure this exists
 import { Navigate } from 'react-router-dom';
 import { ArrowRight, MapPin, CreditCard, Wallet, Truck } from 'lucide-react';
 
@@ -17,16 +17,24 @@ const CheckoutPage = () => {
   const [paymentMethod, setPaymentMethod] = useState('Cash on Delivery');
   const [saveAddress, setSaveAddress] = useState(false);
   
+  // Total Calculation (₹)
   const totalAmount = items.reduce((amount, item) => item.product.price * item.quantity + amount, 0);
   const totalItems = items.reduce((total, item) => item.quantity + total, 0);
 
   const onSubmit = (data) => {
     const order = {
-        items: items.map(item => ({ product: item.product.id, quantity: item.quantity, price: item.product.price, title: item.product.title })),
-        totalAmount, user: user.id, shippingAddress: data, paymentMethod
+        items: items.map(item => ({ 
+            product: item.product.id, 
+            quantity: item.quantity, 
+            price: item.product.price, 
+            title: item.product.title 
+        })),
+        totalAmount, 
+        user: user.id, 
+        shippingAddress: data, 
+        paymentMethod
     };
     
-    // Save Address if checked
     if (saveAddress) {
         const newAddresses = [...(user.addresses || []), data];
         dispatch(updateUserAsync({ id: user.id, addresses: newAddresses }));
@@ -41,9 +49,8 @@ const CheckoutPage = () => {
   return (
     <div className="min-h-screen pt-28 pb-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto bg-gray-50">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-        {/* LEFT: Form */}
+        {/* Form */}
         <div className="bg-white p-8 rounded-[2rem] shadow-sm space-y-8">
-           {/* Address Section */}
            <div>
                <div className="flex items-center gap-3 mb-6"><div className="bg-indigo-100 p-3 rounded-full text-indigo-600"><MapPin size={24} /></div><h2 className="text-2xl font-bold text-gray-900">Shipping Address</h2></div>
                <form id="checkout-form" onSubmit={handleSubmit(onSubmit)} className="space-y-6">
@@ -63,7 +70,7 @@ const CheckoutPage = () => {
                </form>
            </div>
 
-           {/* Payment Section */}
+           {/* Payment Methods */}
            <div>
                 <div className="flex items-center gap-3 mb-6"><div className="bg-green-100 p-3 rounded-full text-green-600"><CreditCard size={24} /></div><h2 className="text-2xl font-bold text-gray-900">Payment Method</h2></div>
                 <div className="grid grid-cols-1 gap-4">
@@ -85,7 +92,7 @@ const CheckoutPage = () => {
            </button>
         </div>
         
-        {/* RIGHT: Order Summary (Updated Currency) */}
+        {/* Order Summary */}
         <div>
            <div className="bg-white p-8 rounded-[2rem] shadow-sm sticky top-28">
                 <h2 className="text-xl font-bold text-gray-900 mb-6">Order Summary</h2>
@@ -109,4 +116,5 @@ const CheckoutPage = () => {
     </div>
   );
 };
+
 export default CheckoutPage;
