@@ -1,10 +1,12 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
-import Home from './pages/Home';  // <--- IMPORT FROM PAGES
+import Home from './pages/Home';
 import Shop from './pages/Shop';
 import ProductDetail from './pages/ProductDetail';
-import LoginPage from './pages/LoginPage';  // <--- IMPORT FROM PAGES
+import LoginPage from './pages/LoginPage';
+import SignUpPage from './pages/SignUpPage';
+import CartPage from './pages/CartPage'; // <--- Import This
 
 function App() {
   return (
@@ -15,6 +17,8 @@ function App() {
         <Route path="/shop" element={<Shop />} />
         <Route path="/product-detail/:id" element={<ProductDetail />} />
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/signup" element={<SignUpPage />} />
+        <Route path="/cart" element={<CartPage />} />
       </Routes>
     </div>
   );

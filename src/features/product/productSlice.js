@@ -4,7 +4,8 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 export const fetchProductsAsync = createAsyncThunk(
   'product/fetchProducts',
   async () => {
-    const response = await fetch('http://localhost:8080/products');
+    // CHANGED: localhost -> 127.0.0.1
+    const response = await fetch('http://127.0.0.1:8080/products');
     if (!response.ok) throw new Error('Failed to fetch products');
     const data = await response.json();
     return data;
@@ -15,7 +16,8 @@ export const fetchProductsAsync = createAsyncThunk(
 export const fetchProductByIdAsync = createAsyncThunk(
   'product/fetchProductById',
   async (id) => {
-    const response = await fetch(`http://localhost:8080/products/${id}`);
+    // CHANGED: localhost -> 127.0.0.1
+    const response = await fetch(`http://127.0.0.1:8080/products/${id}`);
     if (!response.ok) throw new Error('Failed to fetch product');
     const data = await response.json();
     return data;
@@ -25,7 +27,7 @@ export const fetchProductByIdAsync = createAsyncThunk(
 const initialState = {
   products: [],
   selectedProduct: null,
-  status: 'idle', // 'idle' | 'loading' | 'succeeded' | 'failed'
+  status: 'idle',
   error: null
 };
 
@@ -35,7 +37,6 @@ export const productSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      // Handle Fetch ALL
       .addCase(fetchProductsAsync.pending, (state) => {
         state.status = 'loading';
       })
@@ -47,8 +48,6 @@ export const productSlice = createSlice({
         state.status = 'failed';
         state.error = action.error.message;
       })
-      
-      // Handle Fetch SINGLE
       .addCase(fetchProductByIdAsync.pending, (state) => {
         state.status = 'loading';
         state.selectedProduct = null;
