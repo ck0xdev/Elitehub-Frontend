@@ -3,7 +3,8 @@ import { Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';  // <--- IMPORT FROM PAGES
 import Shop from './pages/Shop';
-import ProductDetail from './pages/ProductDetail';  // <--- IMPORT FROM PAGES
+import ProductDetail from './pages/ProductDetail';
+import LoginPage from './pages/LoginPage';  // <--- IMPORT FROM PAGES
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/shop" element={<Shop />} />
         <Route path="/product-detail/:id" element={<ProductDetail />} />
+        <Route path="/login" element={<LoginPage />} />
       </Routes>
     </div>
   );
